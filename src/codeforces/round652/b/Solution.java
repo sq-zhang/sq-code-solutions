@@ -15,6 +15,10 @@ public class Solution {
         while (t-- > 0) {
             int n = sc.nextInt();
             String s = sc.next();
+            if (s.indexOf('0') == -1 || s.indexOf('1') == -1) {
+                pw.println(s);
+                continue;
+            }
             int left = 0, right = 0;
             for(int i = 0;i < s.length();i++) {
                 if (s.charAt(i) == '1') {
@@ -29,9 +33,9 @@ public class Solution {
                 }
             }
             if (right <= left) {
-                pw.println(s);
+                pw.println(s.substring(0, left) + s.substring(right + 1));
             } else {
-                pw.println(s.substring(0, left) + s.substring(right));
+                pw.println(s.substring(0, left) + "0" + s.substring(right + 1));
             }
         }
         pw.flush();

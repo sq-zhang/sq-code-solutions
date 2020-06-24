@@ -9,42 +9,33 @@ public class Solution {
     static final FS sc = new FS();
     static final PrintWriter pw = new PrintWriter(System.out);
 
-
     public static void main(String[] args) {
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt(), k = sc.nextInt();
-            int[] nums = new int[n], friends = new int[k];
-            Map<Integer, Integer> numsCount = new HashMap<>();
+            Integer[] a = new Integer[n], w = new Integer[k];
             for(int i = 0;i < n;i++) {
-                nums[i] = sc.nextInt();
-                numsCount.put(nums[i], numsCount.getOrDefault(nums[i], 0) + 1);
+                a[i] = sc.nextInt();
             }
-            List<Integer> numsList = new ArrayList<>(numsCount.keySet());
-            numsList.sort(Collections.reverseOrder());
-            int res = 0;
             for(int i = 0;i < k;i++) {
-                friends[i] = sc.nextInt();
-                int max = Integer.MAX_VALUE, min = Integer.MAX_VALUE;
-                for(int j = 0;j < numsList.size();j++) {
-                    if (friends[i] == 0) {
-                        break;
-                    }
-                    int num = numsList.get(j);
-                    int c = numsCount.get(num);
-                    if (c > 0) {
-                        if (j == numsList.size() - 1 && c > friends[i]) {
-                            numsCount.put(num, c - friends[i]);
-                            friends[i] = 0;
-                        } else {
-                            numsCount.put(num, c - 1);
-                            friends[i]--;
-                        }
-                        max = Math.max(max, num);
-                        min = Math.min(min, num);
-                    }
+                w[i] = sc.nextInt();
+            }
+            Arrays.sort(a, (o1, o2) -> o2 - o1);
+            Arrays.sort(w);
+            long res = 0;
+            int i1 = k, l = 0, r = n -1;
+            for(int i = 0;i < k;i++) {
+                if (w[i] > 1) {
+                    i1 = i;
+                    break;
                 }
-                res += max + min;
+                res += a[l] * 2;
+                l++;
+            }
+            for(int j = k - 1;j >= i1;j--) {
+                res += a[l] + a[r];
+                r = r - w[j] + 1;
+                l++;
             }
             pw.println(res);
         }

@@ -3,9 +3,8 @@ package codeforces;
 import java.util.*;
 import java.io.*;
 public class Solution {
-    static final FS sc = new FS();
+    static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
-
 
     public static void main(String[] args) {
 
@@ -21,6 +20,13 @@ public class Solution {
                 } catch(Exception ignored) {}
             }
             return st.nextToken();
+        }
+        int[] nextArray(int n) {
+            int[] a = new int[n];
+            for(int i = 0;i < n;i++) {
+                a[i] = nextInt();
+            }
+            return a;
         }
         int nextInt() {
             return Integer.parseInt(next());

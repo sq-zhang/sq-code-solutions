@@ -25,7 +25,7 @@ public class Solution {
             if (n != 1 || two > three) {
                 pw.println(-1);
             } else {
-                pw.println(Math.max(two, three) + Math.abs(two - three));
+                pw.println(three * 2 - two);
             }
         }
         pw.flush();

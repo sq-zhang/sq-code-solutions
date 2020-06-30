@@ -1,11 +1,10 @@
-package codeforces.round653.d;
+package codeforces.edu.suffixarray.practice1;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -13,22 +12,39 @@ public class Solution {
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt(), k = sc.nextInt();
-            int[] a = sc.nextArray(n);
-            Map<Integer, Integer> counts = new HashMap<>();
-            for(int num : a) {
-                int m = num % k;
-                if (m > 0)
-                    counts.put(m, counts.getOrDefault(m, 0) + 1);
+        String s = sc.next();
+        s += "$";
+        int n = s.length();
+        int[] p = new int[n], c = new int[n];
+        int[][] a = new int[n][3];
+
+        int k = 0;
+        boolean init = true;
+        while((1 << k) < n) {
+            for(int i = 0;i < n;i++) {
+                a[i] = init ? new int[]{s.charAt(i), 0, i} :
+                    new int[]{c[i], c[(i + ((1 << k))) % n], i};
             }
-            long res = 0;
-            for(Integer key : counts.keySet()) {
-                res = Math.max(res, (long) counts.get(key) * (long)k - key);
+            Arrays.sort(a, ((o1, o2) -> o1[0] == o2[0] ? o1[1] - o2[1] : o1[0] - o2[0]));
+            for(int i = 0;i < n;i++) {
+                p[i] = a[i][2];
             }
-            pw.println(res == 0 ? 0 : res + 1);
+            c[p[0]] = 0;
+            for(int i = 1;i < n;i++) {
+                if (a[i][0] == a[i - 1][0] && a[i][1] == a[i - 1][1]) {
+                    c[p[i]] = c[p[i - 1]];
+                } else {
+                    c[p[i]] = c[p[i - 1]] + 1;
+                }
+            }
+            k += init ? 0 : 1;
+            init = false;
         }
+
+        for (int i = 0;i < n;i++) {
+            pw.print(p[i] + " ");
+        }
+        pw.println();
         pw.flush();
     }
 

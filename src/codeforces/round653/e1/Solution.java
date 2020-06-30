@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -13,23 +14,50 @@ public class Solution {
 
     public static void main(String[] args) {
         int n = sc.nextInt(), k = sc.nextInt();
-        int[] t = new int[n];
-        Set<Integer> a = new HashSet<>(), b = new HashSet<>();
+        PriorityQueue<Integer> a = new PriorityQueue<>();
+        PriorityQueue<Integer> b = new PriorityQueue<>();
+        PriorityQueue<Integer> ab = new PriorityQueue<>();
         for(int i = 0;i < n;i++) {
-            t[i] = sc.nextInt();
-            if (sc.nextInt() == 1) {
-                a.add(i);
-            }
-            if (sc.nextInt() == 1) {
-                b.add(i);
+            int t = sc.nextInt(), ai = sc.nextInt(), bi = sc.nextInt();
+            if (ai == 1 && bi == 1) {
+                ab.add(t);
+            } else if (ai == 1) {
+                a.add(t);
+            } else if (bi == 1) {
+                b.add(t);
             }
         }
 
-        if (a.size() < k || b.size() < k) {
+        int countA = 0, countB = 0, res = 0;
+        while(countA < k || countB < k) {
+            if (!ab.isEmpty() && !a.isEmpty() && !b.isEmpty()) {
+                if (ab.peek() <= a.peek() + b.peek()) {
+                    res += ab.poll();
+                } else {
+                    res += a.poll() + b.poll();
+                }
+                countA++;
+                countB++;
+            } else if (!ab.isEmpty()) {
+                res += ab.poll();
+                countA++;
+                countB++;
+            } else if (!a.isEmpty() && countA < k) {
+                res += a.poll();
+                countA++;
+            } else if (!b.isEmpty() && countB < k) {
+                res += b.poll();
+                countB++;
+            } else {
+                break;
+            }
+        }
+        if (countA < k || countB < k) {
             pw.println(-1);
         } else {
-
+            pw.println(res);
         }
+
         pw.flush();
     }
 

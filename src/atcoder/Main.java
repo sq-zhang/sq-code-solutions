@@ -1,34 +1,33 @@
-package codeforces.round653.d;
+package atcoder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
-public class Solution {
+public class Main {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int n = sc.nextInt(), k = sc.nextInt();
-            int[] a = sc.nextArray(n);
-            Map<Integer, Integer> counts = new HashMap<>();
-            for(int num : a) {
-                int m = num % k;
-                if (m > 0)
-                    counts.put(m, counts.getOrDefault(m, 0) + 1);
-            }
-            long res = 0;
-            for(Integer key : counts.keySet()) {
-                res = Math.max(res, (long) counts.get(key) * (long)k - key);
-            }
-            pw.println(res == 0 ? 0 : res + 1);
+        int n = sc.nextInt(), q = sc.nextInt();
+        char[] s = new char[n];
+        for(int i = 0;i < n;i++) {
+            s[i] = (char)(i + 'A');
         }
+        for(int i = 0;i < n;i++) {
+            for(int j = 0;j < n - 1;j++) {
+                pw.println("? " + s[j] + " " + s[j + 1]);
+                pw.flush();
+                String ans = sc.next();
+                if (ans.equals(">")) {
+                    char t = s[j];
+                    s[j] = s[j + 1];
+                    s[j + 1] = t;
+                }
+            }
+        }
+        pw.println("! " + new String(s));
         pw.flush();
     }
 

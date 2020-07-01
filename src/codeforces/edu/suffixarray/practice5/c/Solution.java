@@ -1,4 +1,4 @@
-package codeforces.edu.suffixarray.practice4;
+package codeforces.edu.suffixarray.practice5.c;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-// 计数排序优化
 public class Solution {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
@@ -15,15 +14,30 @@ public class Solution {
     public static void main(String[] args) {
         String s = sc.next();
         SuffixArray sa = new SuffixArray(s);
+        int n = sc.nextInt();
+        int[][] arr = new int[n][2];
+        for(int i = 0;i < n;i++) {
+            arr[i][0] = sc.nextInt();
+            arr[i][1] = sc.nextInt();
+        }
 
-        for (int i = 0;i < sa.n;i++) {
-            pw.print(sa.sa[i] + " ");
+        int[] rsa = new int[sa.n];
+        for(int i = 0;i < sa.n;i++) {
+            rsa[sa.sa[i]] = i;
         }
-        pw.println();
-        for (int i = 0;i < sa.n - 1;i++) {
-            pw.print(sa.lcp[i] + " ");
+
+        Arrays.sort(arr, (o1, o2) -> {
+            if (rsa[o1[0] - 1] != rsa[o2[0] - 1]) {
+                return rsa[o1[0] - 1] - rsa[o2[0] - 1];
+            } else if (o1[0] != o2[0]){
+                return o1[0] - o2[0];
+            } else {
+                return o1[1] - o2[1];
+            }
+        });
+        for(int[] ar : arr) {
+            pw.println(ar[0] + " " + ar[1]);
         }
-        pw.println();
         pw.flush();
     }
 

@@ -1,4 +1,4 @@
-package codeforces.edu.suffixarray.practice4;
+package codeforces.edu.suffixarray.practice5.b;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,23 +7,29 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-// 计数排序优化
 public class Solution {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-        String s = sc.next();
+        String s1 = sc.next(), s2 = sc.next();
+        String s = s1 + "#" + s2;
         SuffixArray sa = new SuffixArray(s);
+        int res = 0, m = s1.length(), idx = 0;
+        for(int i = 1;i < sa.n - 1;i++) {
+            if (sa.sa[i] < m && sa.sa[i + 1] < m) {
+                continue;
+            }
+            if (sa.sa[i] > m && sa.sa[i + 1] > m) {
+                continue;
+            }
+            if (sa.lcp[i] > res) {
+                res = sa.lcp[i];
+                idx = sa.sa[i];
+            }
+        }
 
-        for (int i = 0;i < sa.n;i++) {
-            pw.print(sa.sa[i] + " ");
-        }
-        pw.println();
-        for (int i = 0;i < sa.n - 1;i++) {
-            pw.print(sa.lcp[i] + " ");
-        }
-        pw.println();
+        pw.println(s.substring(idx, idx + res));
         pw.flush();
     }
 

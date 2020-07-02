@@ -10,7 +10,6 @@ public class Solution {
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-
         int t = sc.nextInt();
         while(t-- > 0) {
             long n = sc.nextLong(), r = sc.nextLong();

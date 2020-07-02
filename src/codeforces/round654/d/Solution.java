@@ -1,4 +1,4 @@
-package codeforces.round654.c;
+package codeforces.round654.d;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,12 +12,29 @@ public class Solution {
     public static void main(String[] args) {
         int t = sc.nextInt();
         while(t-- > 0) {
-            long a = sc.nextLong(), b = sc.nextLong(),
-                    n = sc.nextLong(), m = sc.nextLong();
-            if (a + b >= n + m && Math.min(a, b) >= m) {
-                pw.println("Yes");
+            int n = sc.nextInt(), k = sc.nextInt();
+            if (k % n == 0) {
+                pw.println(0);
             } else {
-                pw.println("No");
+                pw.println(2);
+            }
+            int[][] res = new int[n][n];
+            int p = 0, q = 0;
+            while(k > 0) {
+                k--;
+                res[p][q] = 1;
+                p++;
+                q = (q + 1) % n;
+                if (p == n) {
+                    p = 0;
+                    q = (q + 1) % n;
+                }
+            }
+            for(int i = 0;i < n;i++) {
+                for(int j = 0;j < n;j++) {
+                    pw.print(res[i][j]);
+                }
+                pw.println();
             }
         }
         pw.flush();

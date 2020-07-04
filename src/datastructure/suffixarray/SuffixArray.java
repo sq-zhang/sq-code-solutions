@@ -4,12 +4,12 @@ package datastructure.suffixarray;
  * @author sqzhang
  * @year 2020
  */
-public class SuffixArray {
+public abstract class SuffixArray {
 
-    private final int n;
-    private int[] text;
-    private int[] sa;
-    private int[] lcp;
+    protected final int n;
+    protected int[] text;
+    protected int[] sa;
+    protected int[] lcp;
 
     public SuffixArray(String text) {
         if (text == null) {
@@ -44,7 +44,7 @@ public class SuffixArray {
                 continue;
             }
             int k = sa[rsa[i] - 1];
-            while ((i + len < n) && (k + len < n) && text[i + n] == text[k + n]) {
+            while ((i + len < n) && (k + len < n) && text[i + len] == text[k + len]) {
                 len++;
             }
             lcp[rsa[i]] = len;
@@ -54,18 +54,12 @@ public class SuffixArray {
         }
     }
 
-    void buildSuffixArrayOriginal() {
-
-    }
-
-    void buildSuffixArrayWithCountSort() {
-
-    }
+    abstract void buildSuffixArray();
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("-----i-----sa-----lcp---suffix\n");
+        sb.append("   i   sa  lcp suffix\n");
 
         for (int i = 0; i < n; i++) {
             int suffixLen = n - sa[i];
@@ -74,7 +68,7 @@ public class SuffixArray {
                 suffixArray[k] = (char) text[j];
             }
             String suffix = new String(suffixArray);
-            String formattedStr = String.format("% 7d % 7d % 7d %s\n", i, sa[i], lcp[i], suffix);
+            String formattedStr = String.format("%4d %4d %4d %s\n", i, sa[i], lcp[i], suffix);
             sb.append(formattedStr);
         }
         return sb.toString();

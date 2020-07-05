@@ -1,8 +1,10 @@
-package atcoder;
+package atcoder.ABC173.b;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -10,7 +12,17 @@ public class Main {
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-
+        int n = sc.nextInt();
+        Map<String, Integer> maps = new HashMap<>();
+        while (n-- > 0) {
+            String s = sc.next();
+            maps.put(s, maps.getOrDefault(s, 0) + 1);
+        }
+        pw.println("AC x " + maps.getOrDefault("AC", 0));
+        pw.println("WA x " + maps.getOrDefault("WA", 0));
+        pw.println("TLE x " + maps.getOrDefault("TLE", 0));
+        pw.println("RE x " + maps.getOrDefault("RE", 0));
+        pw.flush();
     }
 
     static class FS {

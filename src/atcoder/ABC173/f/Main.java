@@ -1,16 +1,28 @@
-package atcoder;
+package atcoder.ABC173.f;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-
+        int n = sc.nextInt();
+        long res = 0;
+        for (int i = 1; i <= n; i++)
+            res += (long) i * (i + 1) / 2;
+        for (int i = 0; i < n - 1; i++) {
+            int a = sc.nextInt() - 1;
+            int b = sc.nextInt() - 1;
+            int u = Math.min(a, b);
+            int v = Math.max(a, b);
+            res -= (long) (u + 1) * (n - v);
+        }
+        pw.println(res);
+        pw.flush();
     }
 
     static class FS {

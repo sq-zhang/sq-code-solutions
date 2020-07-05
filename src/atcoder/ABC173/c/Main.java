@@ -1,16 +1,42 @@
-package atcoder;
+package atcoder.ABC173.c;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
+        int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
+        char[][] s = new char[n][m];
+        for(int i=0; i < s.length; i++){
+            String t = sc.next();
+            s[i] = t.toCharArray();
+        }
 
+        int res = 0;
+        for(int i = 0; i < 1 << n; i++){
+            for(int j = 0; j < 1 << m; j++){
+                int count = 0;
+                for(int c = 0; c < n; c++){
+                    for(int d = 0; d < m; d++){
+                        if(((i >> c & 1) == 1) && ((j >> d & 1) == 1)){
+                            if(s[c][d] == '#'){
+                                count++;
+                            }
+                        }
+                    }
+                }
+                if(count == k){
+                    res++;
+                }
+            }
+        }
+        pw.println(res);
+        pw.flush();
     }
 
     static class FS {

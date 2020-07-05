@@ -1,4 +1,4 @@
-package atcoder;
+package atcoder.ABC173.a;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,7 +10,10 @@ public class Main {
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
-
+        int n = sc.nextInt();
+        int res = n % 1000;
+        pw.println(res == 0 ? 0 : 1000 - res);
+        pw.flush();
     }
 
     static class FS {

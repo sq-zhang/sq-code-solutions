@@ -1,11 +1,11 @@
-package atcoder;
+package codeforces.global.round9.g;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Solution {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
 

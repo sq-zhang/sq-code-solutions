@@ -12,11 +12,10 @@ public class Main {
     public static void main(String[] args) {
         int n = sc.nextInt(), m = sc.nextInt(), k = sc.nextInt();
         char[][] s = new char[n][m];
-        for(int i=0; i < s.length; i++){
+        for(int i = 0; i < s.length; i++){
             String t = sc.next();
             s[i] = t.toCharArray();
         }
-
         int res = 0;
         for(int i = 0; i < 1 << n; i++){
             for(int j = 0; j < 1 << m; j++){

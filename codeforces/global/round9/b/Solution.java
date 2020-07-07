@@ -10,13 +10,14 @@ public class Solution {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
     static final int[][] dirs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+    static int[][] matrix;
+    static int n, m;
 
-    public static boolean valid(int nx, int ny) {
+    private static boolean valid(int nx, int ny) {
         return nx >= 0 && nx < n && ny >= 0 && ny < m;
     }
 
     public static boolean solve() {
-        boolean[][] visited = new boolean[n][m];
         for(int i = 0;i < n;i++) {
             for(int j = 0;j < m;j++) {
                 int count = 0;
@@ -34,9 +35,6 @@ public class Solution {
         }
         return true;
     }
-
-    static int[][] matrix;
-    static int n, m;
 
     public static void main(String[] args) {
         int t = sc.nextInt();

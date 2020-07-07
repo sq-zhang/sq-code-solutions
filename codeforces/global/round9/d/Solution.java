@@ -10,7 +10,48 @@ public class Solution {
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int[] a = sc.nextArray(n);
+            StringBuilder res = new StringBuilder();
+            int count = 0;
+            while (!isSorted(a)) {
+                int mex = 0;
+                boolean[] seen = new boolean[n+1];
+                for(int i = 0; i < n; i++){
+                    seen[a[i]] = true;
+                    while(seen[mex]) {
+                        mex++;
+                    }
+                }
+                if (mex != n) {
+                    a[mex] = mex;
+                    res.append(mex + 1).append(" ");
+                } else {
+                    for(int i = 0; i < n; i++){
+                        if(a[i] != i){
+                            a[i] = mex;
+                            res.append(i + 1).append(" ");
+                            break;
+                        }
+                    }
+                }
+                count++;
+            }
+            pw.println(count);
+            pw.println(res.toString());
+        }
+        pw.flush();
+    }
 
+    private static boolean isSorted(int[] a) {
+        for(int i = 0;i < a.length - 1;i++) {
+            if (a[i] > a[i + 1]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     static class FS {

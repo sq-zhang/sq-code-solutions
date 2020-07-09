@@ -9,20 +9,18 @@ import java.util.Arrays;
 public class FenwickTreeRangeQuery {
     int n;
     int[] tree;
-    public FenwickTreeRangeQuery(int sz) {
-        tree = new int[(n = sz + 1)];
-    }
-    public FenwickTreeRangeQuery(int[] values) {
-        n = values.length + 1;
+
+    public FenwickTreeRangeQuery(int[] a) {
+        n = a.length + 1;
         tree = new int[n];
         for(int i = 1;i < n;i++) {
-            tree[i] = values[i - 1];
+            tree[i] = a[i - 1];
         }
 
         for (int i = 1; i < n; i++) {
-            int parent = i + lowbit(i);
-            if (parent < n) {
-                tree[parent] += tree[i];
+            int pi = i + lowbit(i);
+            if (pi < n) {
+                tree[pi] += tree[i];
             }
         }
     }
@@ -44,10 +42,7 @@ public class FenwickTreeRangeQuery {
         return prefixSum(right) - prefixSum(left - 1);
     }
 
-    // Set index i to be equal to v, O(log(n))
-    public void set(int i, long v) {
-        int origin = sum(i, i);
-        v -= origin;
+    public void add(int i, long v) {
         while (i < n) {
             tree[i] += v;
             i += lowbit(i);

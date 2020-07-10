@@ -2,10 +2,11 @@ package datastructure.sparsetable;
 
 /**
  * an implementation of sparse table
- * @operation max(l, r) O(1)
+ * @operation min(l, r) O(1)
+ * @operation minIndex(l, r) O(1)
  * @operation init() O(n log n)
  *
- * Math.max can be simply replaced by Math.min, gcd etc.
+ * Math.min can be simply replaced by Math.max.
  *
  * @author sqzhang
  * @year 2020

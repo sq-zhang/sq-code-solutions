@@ -47,7 +47,7 @@ public class FenwickTreePointQuery {
         return sum;
     }
 
-    private static int lowbit(int i) {
+    private int lowbit(int i) {
         return i & -i;
     }
 

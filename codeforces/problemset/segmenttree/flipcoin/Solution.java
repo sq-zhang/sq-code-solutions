@@ -9,82 +9,89 @@ import java.util.StringTokenizer;
 public class Solution {
     static final FS sc = new FS();  // 封装输入类
     static final PrintWriter pw = new PrintWriter(System.out);
-    static int[] tree;
-    static boolean[] lazy;
 
     public static void main(String[] args) {
         int n = sc.nextInt(), q = sc.nextInt();
-        tree = new int[4 * n + 4];
-        lazy = new boolean[4 * n + 4];
+        SegmentTreeFlipCoin flipCoin = new SegmentTreeFlipCoin(n);
         while (q-- > 0) {
             int type = sc.nextInt(), l = sc.nextInt() + 1, r = sc.nextInt() + 1;
-//            pw.println(type + "," + l + "," + r);
             if (type == 0) {
-                update(1, n, l, r, 1);
+                flipCoin.update(l, r);
             } else {
-                pw.println(query(1, n, l, r, 1));
+                pw.println(flipCoin.query(l, r));
             }
-//            print();
         }
         pw.flush();
     }
 
-    public static void print(){
-        for(int i = 1;i <= 7;i++){
-            pw.print(tree[i]+ " ");
-        }
-        pw.println();
-        for(int i = 1;i <= 7;i++){
-            pw.print((lazy[i] ? "T" : "F") + " ");
-        }
-        pw.println();
-    }
+    public static class SegmentTreeFlipCoin {
+        private int[] t;
+        private int[] lazy;
+        private int n;
 
-    public static int query(int s, int e, int l, int r, int p) {
-        if (lazy[p]) {
-            tree[p] = (e - s + 1) - tree[p];
-            if (s != e) {
-                lazy[2 * p] = !lazy[2 * p];
-                lazy[2 * p + 1] = !lazy[2 * p + 1];
-            }
-            lazy[p] = false;
+        public SegmentTreeFlipCoin(int n) {
+            this.n = n;
+            t = new int[4 * n + 4];
+            lazy = new int[4 * n + 4];
         }
-        if (s > r || e < l) {
-            return 0;
-        }
-        if (s >= l && e <= r) {
-            return tree[p];
-        }
-        int mid = (s + e) / 2;
-        int left = query(s, mid, l, r, 2 * p);
-        int right = query(mid + 1, e, l, r, 2 * p + 1);
-        return left + right;
-    }
 
-    public static void update(int s, int e, int l, int r, int p) {
-        if (lazy[p]) {
-            tree[p] = (e - s + 1) - tree[p];
-            if (s != e) {
-                lazy[2 * p] = !lazy[2 * p];
-                lazy[2 * p + 1] = !lazy[2 * p + 1];
+        private void push(int p, int tl, int tr) {
+            if (lazy[p] > 0) {
+                t[p] = (tr - tl + 1) - t[p];
+                if (tl != tr) {
+                    lazy[2 * p] ^= 1;
+                    lazy[2 * p + 1] ^= 1;
+                }
+                lazy[p] = 0;
             }
-            lazy[p] = false;
         }
-        if (s > r || e < l) {
-            return;
-        }
-        if (s >= l && e <= r) {
-            tree[p] = (e - s + 1) - tree[p];
-            if (s != e) {
-                lazy[2 * p] = !lazy[2 * p];
-                lazy[2 * p + 1] = !lazy[2 * p + 1];
+
+        private int query(int p, int tl, int tr, int l, int r) {
+            push(p, tl, tr);
+            if (tl > r || tr < l) {
+                return 0;
             }
-            return;
+            if (l <= tl && tr <= r) {
+                return t[p];
+            }
+            int mid = (tl + tr) / 2;
+            int left = query(p * 2, tl, mid, l, r);
+            int right = query(p * 2 + 1, mid + 1, tr, l, r);
+            return left + right;
         }
-        int mid = (e + s) / 2;
-        update(s, mid, l, r, 2 * p);
-        update(mid + 1, e, l, r, 2 * p + 1);
-        tree[p] = tree[2 * p] + tree[2 * p + 1];
+
+        private void update(int p, int tl, int tr, int l, int r) {
+            push(p, tl, tr);
+            if (tl > r || tr < l) {
+                return;
+            }
+            // push(p, tl, tr); // why push here results wrong answer??
+            if (l <= tl && tr <= r) {
+                t[p] = (tr - tl + 1) - t[p];
+                if (tl != tr) {
+                    lazy[2 * p] ^= 1;
+                    lazy[2 * p + 1] ^= 1;
+                }
+                return;
+            }
+            int mid = (tr + tl) / 2;
+            update(p * 2, tl, mid, l, r);
+            update(p * 2 + 1, mid + 1, tr, l, r);
+            t[p] = t[2 * p] + t[2 * p + 1];
+        }
+
+        /**
+         * @return get range sum from l to r
+         */
+        public int query(int l, int r) {
+            return query(1, 1, n, l, r);
+        }
+        /**
+         * add val to element from l to r
+         */
+        public void update(int l, int r) {
+            update(1, 1, n, l, r);
+        }
     }
 
     static class FS {

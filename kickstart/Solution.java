@@ -24,7 +24,7 @@ public class Solution {
         return res;
     }
 
-    static double solve() throws Exception {
+    static double solve() {
         n = sc.nextInt();
         nums = new int[n + 1];
         for(int i = 0;i <= n;i++) {

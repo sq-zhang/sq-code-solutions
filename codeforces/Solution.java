@@ -3,7 +3,7 @@ package codeforces;
 import java.util.*;
 import java.io.*;
 public class Solution {
-    static final FS sc = new FS();  // 封装输入类
+    static final FS sc = new FS();
     static final PrintWriter pw = new PrintWriter(System.out);
 
     public static void main(String[] args) {

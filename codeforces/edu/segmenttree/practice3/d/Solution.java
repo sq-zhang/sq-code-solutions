@@ -1,8 +1,9 @@
-package codeforces.edu.segmenttree.practice3.c;
+package codeforces.edu.segmenttree.practice3.d;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -20,9 +21,19 @@ public class Solution {
             if (idx[a[i]] == 0) {
                 idx[a[i]] = i + 1;
             } else {
-                ans[a[i]] = sum(1, 1, m, idx[a[i]] + 1, i);
-                update(1, 1, m, idx[a[i]]);
+                ans[a[i]] += sum(1, 1, m, idx[a[i]] + 1, i);
             }
+            update(1, 1, m, idx[a[i]]);
+        }
+        Arrays.fill(idx, 0);
+        Arrays.fill(t, 0);
+        for(int i = m - 1;i >= 0;i--) {
+            if (idx[a[i]] == 0) {
+                idx[a[i]] = i + 1;
+            } else {
+                ans[a[i]] += sum(1, 1, m, i + 1, idx[a[i]] - 1);
+            }
+            update(1, 1, m, idx[a[i]]);
         }
         for (int i = 1;i <= n;i++) {
             pw.print(ans[i] + " ");

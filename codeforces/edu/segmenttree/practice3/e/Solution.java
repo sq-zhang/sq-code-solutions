@@ -1,4 +1,4 @@
-package codeforces.edu.segmenttree.practice3.c;
+package codeforces.edu.segmenttree.practice3.e;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,54 +8,46 @@ import java.util.StringTokenizer;
 public class Solution {
     static final FS sc = new FS();
     static final PrintWriter pw = new PrintWriter(System.out);
-    static int[] t, a;
+    static long[] t;
     public static void main(String[] args) {
-        int n = sc.nextInt();
-        int m = 2 * n;
-        t = new int[4 * m];
-        a = sc.nextArray(m);
-        int[] idx = new int[n + 1];
-        int[] ans = new int[n + 1];
-        for(int i = 0;i < m;i++) {
-            if (idx[a[i]] == 0) {
-                idx[a[i]] = i + 1;
+        int n = sc.nextInt(), m = sc.nextInt();
+        t = new long[4 * n];
+        while (m-- > 0) {
+            int type = sc.nextInt();
+            if (type == 1) {
+                int l = sc.nextInt() + 1, r = sc.nextInt(), v = sc.nextInt();
+                update(1, 1, n, l, r, v);
             } else {
-                ans[a[i]] = sum(1, 1, m, idx[a[i]] + 1, i);
-                update(1, 1, m, idx[a[i]]);
+                int pos = sc.nextInt() + 1;
+                pw.println(get(1, 1, n, pos));
             }
         }
-        for (int i = 1;i <= n;i++) {
-            pw.print(ans[i] + " ");
-        }
-        pw.println();
         pw.flush();
     }
 
-    static void update(int p, int tl, int tr, int pos) {
+    static long get(int p, int tl, int tr, int pos) {
         if (tl == tr) {
-            t[p] ^= 1;
-            return;
-        }
-        int mid = (tl + tr) / 2;
-        if (mid >= pos) {
-            update(p * 2, tl, mid, pos);
-        } else {
-            update(p * 2 + 1, mid + 1, tr, pos);
-        }
-        t[p] = t[p * 2] + t[p * 2 + 1];
-    }
-
-    static int sum(int p, int tl, int tr, int l, int r) {
-        if (l > r) {
-            return 0;
-        }
-        if (l == tl && r == tr) {
             return t[p];
         }
-        int tm = (tl + tr) /2;
-        int left = sum(p * 2, tl, tm, l, Math.min(r, tm));
-        int right = sum(p * 2 + 1, tm + 1, tr, Math.max(l, tm + 1), r);
-        return left + right;
+        int tm = (tl + tr) / 2;
+        if (pos <= tm) {
+            return t[p] + get(p * 2, tl, tm, pos);
+        } else {
+            return t[p] + get(p * 2 + 1, tm + 1, tr, pos);
+        }
+    }
+
+    static void update(int p, int tl, int tr, int l, int r, int val) {
+        if (l > r) {
+            return;
+        }
+        if (l == tl && r == tr) {
+            t[p] += val;
+            return;
+        }
+        int tm =  (tl + tr) / 2;
+        update(p * 2, tl, tm, l, Math.min(r, tm), val);
+        update(p * 2 + 1, tm + 1, tr, Math.max(l, tm + 1), r, val);
     }
 
     static class FS {

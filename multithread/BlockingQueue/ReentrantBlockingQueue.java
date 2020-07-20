@@ -36,12 +36,11 @@ public class ReentrantBlockingQueue {
 
     public int dequeue() throws InterruptedException {
         lock.lock();
-        Integer res;
         try {
             while(size == 0){
                 empty.await();
             }
-            res = queue.pollLast();
+            Integer res = queue.pollLast();
             size -= 1;
             full.signalAll();
             return res;

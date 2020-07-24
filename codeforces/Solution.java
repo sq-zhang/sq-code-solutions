@@ -6,8 +6,15 @@ public class Solution {
     static final FS sc = new FS();
     static final PrintWriter pw = new PrintWriter(System.out);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+//        BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+//        System.out.println("请输入一串字符串");
+//        String text = buffer.readLine();
+//        System.out.println("您输入的字符串是:" + text);
 
+        Scanner scan = new Scanner(System.in);
+        System.out.println("请输入一个字符串:");
+        System.out.println("您输入的字符串是:" + scan.nextLine());
     }
 
     static class FS {

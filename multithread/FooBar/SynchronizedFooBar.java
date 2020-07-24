@@ -16,9 +16,12 @@ class SynchronizedFooBar {
         @Override
         public void run() {
             try {
-                for (int i = 0; i < n; i++) {
-                    synchronized(lock) {
+                System.out.println("foo run");
+                synchronized(lock) {
+                    System.out.println("foo 进入");
+                    for (int i = 0; i < n; i++) {
                         if (!fooTurn) {
+                            System.out.println("foo wait");
                             lock.wait();
                         }
                         fooTurn = false;
@@ -37,14 +40,18 @@ class SynchronizedFooBar {
         @Override
         public void run() {
             try {
-                for (int i = 0; i < n; i++) {
-                    synchronized(lock) {
-                        if (fooTurn) {
-                            lock.wait();
-                        }
-                        fooTurn = true;
-                        System.out.println("===bar");
-                        lock.notifyAll();
+                System.out.println("bar run");
+                synchronized(lock) {
+                    System.out.println("bar 进入");
+                    for (int i = 0; i < n; i++) {
+                            if (fooTurn) {
+                                System.out.println("bar wait");
+                                lock.wait();
+                            }
+                            fooTurn = true;
+                            System.out.println("===bar");
+                            lock.notifyAll();
+
                     }
                 }
             } catch (Exception e) {

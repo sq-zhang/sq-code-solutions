@@ -12,30 +12,20 @@ public class Main {
     public static void main(String[] args) {
         int a = sc.nextInt(), b = sc.nextInt(), c = sc.nextInt();
         int k = sc.nextInt();
-        if (solve(a, b, c, k)) {
+        while (a >= b) {
+            b *= 2;
+            k--;
+        }
+        while (b >= c) {
+            c *= 2;
+            k--;
+        }
+        if (k >= 0) {
             pw.println("Yes");
         } else {
             pw.println("No");
         }
         pw.flush();
-    }
-
-    static boolean solve(int a, int b, int c, int k) {
-        while (a >= b) {
-            b *= 2;
-            k--;
-            if (k < 0) {
-                return false;
-            }
-        }
-        while (b >= c) {
-            c *= 2;
-            k--;
-            if (k < 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     static class FS {

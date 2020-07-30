@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -14,27 +15,13 @@ public class Solution {
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            int[] a = new int[n];
             int max = 0;
-            for(int i = 0;i < n;i++) {
-                a[i] = sc.nextInt();
-                max = Math.max(max, a[i]);
-            }
-            if (max == 0) {
-                for(int i = 0;i <= n;i++) {
-                    pw.println((char)((i % 26) + 'a'));
-                }
-                continue;
-            }
-            char[] s = new char[max];
-            for(int i = 0;i < max;i++) {
-                s[i] = 'a';
-            }
+            char[] s = new char[200];
+            Arrays.fill(s, 'a');
             pw.println(new String(s));
             for(int i = 0;i < n;i++) {
-                for(int j = a[i];j < max;j++) {
-                    s[j] = (char)(((s[j] + 1 - 'a') % 26) + 'a');
-                }
+                int a = sc.nextInt();
+                s[a] = (s[a] == 'a') ? 'b' : 'a';
                 pw.println(new String(s));
             }
         }

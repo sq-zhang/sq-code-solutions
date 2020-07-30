@@ -52,8 +52,7 @@ public class Solution {
             if (solve(nums, n, 2 * k, l)) {
                 pw.println("Yes");
             } else {
-                pw.println("No");
-            }
+                pw.println("No");            }
         }
         pw.flush();
     }

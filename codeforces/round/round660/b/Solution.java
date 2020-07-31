@@ -13,15 +13,15 @@ public class Solution {
         int t = sc.nextInt();
         while (t-- > 0) {
             int n = sc.nextInt();
-            int m = n / 4 + ((n % 4 == 0) ? 0 : 1);
-            StringBuilder res = new StringBuilder();
+            // int m = n / 4 + ((n % 4 == 0) ? 0 : 1);
+            int m = (n + 3) / 4;
             for(int i = 0;i < n - m;i++) {
-                res.append(9);
+                pw.print(9);
             }
             for(int i = 0;i < m;i++) {
-                res.append(8);
+                pw.print(8);
             }
-            pw.println(res.toString());
+            pw.println();
         }
         pw.flush();
     }

@@ -3,53 +3,48 @@ package codeforces.round.round660.d;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
-public class Solution {
+public class DfsSolution {
     static final FS sc = new FS();
     static final PrintWriter pw = new PrintWriter(System.out);
-
+    static boolean[] vis;
+    static List<List<Integer>> adj;
+    static List<Integer> wait, now;
+    static long ans;
+    static long[] a;
+    static int[] b;
     public static void main(String[] args) {
         int n = sc.nextInt();
-        long[] a = new long[n];
+        a = new long[n];
         for (int i = 0;i < n;i++) {
             a[i] = sc.nextLong();
         }
-        int[] b = new int[n];
-        int[] size = new int[n];
+        b = new int[n];
+        adj = new ArrayList<>();
+        for (int i = 0;i < n;i++) {
+            adj.add(new ArrayList<>());
+        }
         for(int i  = 0;i < n;i++) {
             b[i] = sc.nextInt() - 1;
             if (b[i] >= 0) {
-                size[b[i]]++;
+                adj.get(b[i]).add(i);
             }
         }
-        Queue<Integer> q = new LinkedList<>();
-        for(int i = 0;i < n;i++) {
-            if (size[i] == 0) {
-                q.add(i);
+        vis = new boolean[n];
+        ans = 0;
+        wait = new ArrayList<>();
+        now = new ArrayList<>();
+        for (int i = 0;i < n;i++) {
+            if (!vis[i]) {
+                dfs(i);
             }
         }
-        long ans = 0;
-        List<Integer> wait = new ArrayList<>();
-        List<Integer> now = new ArrayList<>();
-        while (!q.isEmpty()) {
-            int v = q.poll();
-            ans += a[v];
-            if (a[v] >= 0) {
-                if (b[v] >= 0) {
-                    a[b[v]] += a[v];
-                }
-                now.add(v);
-            } else {
-                wait.add(v);
-            }
-            if (b[v] >= 0) {
-                size[b[v]]--;
-                if (size[b[v]] == 0) {
-                    q.add(b[v]);
-                }
-            }
-        }
+
         pw.println(ans);
         for (int i = 0;i < now.size();i++) {
             pw.print((now.get(i) + 1) + " ");
@@ -59,6 +54,24 @@ public class Solution {
         }
         pw.println();
         pw.flush();
+    }
+
+    private static void dfs(int v) {
+        vis[v] = true;
+        for (Integer u : adj.get(v)) {
+            if (!vis[u]) {
+                dfs(u);
+            }
+        }
+        ans += a[v];
+        if (a[v] >= 0) {
+            if (b[v] >= 0) {
+                a[b[v]] += a[v];
+            }
+            now.add(v);
+        } else {
+            wait.add(v);
+        }
     }
 
     static class FS {

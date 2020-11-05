@@ -12,32 +12,42 @@ public class Main {
 
     public static void main(String[] args) {
         int n = sc.nextInt(), m = sc.nextInt();
-        int[] h = sc.nextArray(n);
-        int[] w = sc.nextArray(m);
+        long[] h = sc.nextLongArray(n);
+        long[] w = sc.nextLongArray(m);
         Arrays.sort(h);
-        Arrays.sort(w);
-        int res = Integer.MAX_VALUE;
-        int k = 0;
-        for (int wi : w) {
-            int sum = 0, i = 0;
-            boolean flag = false;
-            while (i < n - 1) {
-                if (h[i + 1] >= wi && !flag) {
-                    sum += Math.abs(h[i] - wi);
-                    i += 1;
-                    flag = true;
-                } else {
-                    sum += h[i + 1] - h[i];
-                    i += 2;
-                }
+
+        long[] left = new long[n + 1];
+        long[] right = new long[n + 1];
+        for (int i = 2;i < n;i += 2) {
+            left[i] = left[i - 2] + h[i - 1] - h[i - 2];
+            right[i] = right[i - 2] + h[n - i + 1] - h[n - i];
+        }
+        pw.println(Arrays.toString(left));
+        pw.println(Arrays.toString(right));
+        long res = Long.MAX_VALUE;
+        for (int i = 0;i < m;i++) {
+            int x = searchRight(h, w[i]);
+            if (x % 2 == 0) {
+                res = Math.min(res, left[x] + right[n - x - 1] + h[x] - w[i]);
+            } else {
+                res = Math.min(res, left[x - 1] + right[n - x] + w[i] - h[x - 1]);
             }
-            if (!flag) {
-                sum += Math.abs(wi - h[n - 1]);
-            }
-            res = Math.min(res, sum);
         }
         pw.println(res);
         pw.flush();
+    }
+
+    public static int searchRight(long[] nums, long x) {
+        int l = -1, r = nums.length;
+        while (Math.abs(l - r) > 1) {
+            int mid = (l + r) / 2;
+            if (nums[mid] > x) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        return r;
     }
 
     static class FS {
@@ -55,6 +65,13 @@ public class Main {
             int[] a = new int[n];
             for(int i = 0;i < n;i++) {
                 a[i] = nextInt();
+            }
+            return a;
+        }
+        long[] nextLongArray(int n) {
+            long[] a = new long[n];
+            for(int i = 0;i < n;i++) {
+                a[i] = nextLong();
             }
             return a;
         }
